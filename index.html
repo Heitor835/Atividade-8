@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { background: #000; display: block; margin: auto; }
+        .controls { position: fixed; bottom: 10px; width: 100%; text-align: center; }
+        .btn { display: inline-block; width: 50px; height: 50px; margin: 5px; background: #555; color: #fff; line-height: 50px; text-align: center; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+        <div id="left" class="btn">←</div>
+        <div id="up" class="btn">↑</div>
+        <div id="down" class="btn">↓</div>
+        <div id="right" class="btn">→</div>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const pacSize = 30;
+        let pacX = canvas.width / 2;
+        let pacY = canvas.height / 2;
+        let pacSpeed = 5;
+
+        function drawPacman() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(pacX, pacY, pacSize, 0.2 * Math.PI, 1.8 * Math.PI); // Drawing Pac-Man with an open mouth
+            ctx.lineTo(pacX, pacY);
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+        }
+
+        function update() {
+            drawPacman();
+        }
+
+        function movePacman(direction) {
+            if (direction === 'left') pacX -= pacSpeed;
+            if (direction === 'right') pacX += pacSpeed;
+            if (direction === 'up') pacY -= pacSpeed;
+            if (direction === 'down') pacY += pacSpeed;
+            pacX = Math.max(pacSize, Math.min(canvas.width - pacSize, pacX));
+            pacY = Math.max(pacSize, Math.min(canvas.height - pacSize, pacY));
+            update();
+        }
+
+        document.getElementById('left').addEventListener('click', () => movePacman('left'));
+        document.getElementById('right').addEventListener('click', () => movePacman('right'));
+        document.getElementById('up').addEventListener('click', () => movePacman('up'));
+        document.getElementById('down').addEventListener('click', () => movePacman('down'));
+
+        update();
+    </script>
+</body>
+</html>
 
